@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анализ тональности</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'sentiment/style.css' %}">
+    <script>
+        function resetForm() {
+            document.getElementById("commentForm").reset(); // Сбросить форму
+            document.getElementById("result").style.display = 'none'; // Скрыть результат
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Анализ тональности</h1>
+        <form method="POST" id="commentForm">
+            {% csrf_token %}
+            <textarea name="comment" placeholder="Введите ваш текст здесь..."></textarea>
+            <button type="submit">Получить результат</button>
+            <button type="button" class="reset" onclick="resetForm()">Сбросить</button>
+        </form>
+        {% if result %}
+        <div id="result" class="result {% if result == 'Позитивный' %}positive{% elif result == 'Нейтральный' %}neutral{% else %}negative{% endif %}">
+            Результат анализа: {{ result }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
