@@ -55,10 +55,10 @@ python manage.py runserver
 ## Пример работы
 
 Положительный результат:
-![Положительный результат](media/positive_result.png)
+![Положительный результат](examples/positive_result.png)
 
 Нейтральный результат:
-![Нейтральный результат](media/neutral_result.png)
+![Нейтральный результат](examples/neutral_result.png)
 
 Негативный результат:
-![Негативный результат](media/negative_result.png)
+![Негативный результат](examples/negative_result.png)
