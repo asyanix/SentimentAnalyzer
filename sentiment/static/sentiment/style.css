@@ -9,6 +9,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     height: 100vh;
 }
 
@@ -19,6 +20,7 @@ body {
     background: #ffffff;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    margin-top: 50px;
 }
 
 h1 {
@@ -67,6 +69,7 @@ button:hover {
 
 button.reset {
     background: #e74c3c;
+    width: -webkit-fill-available;
 }
 
 button.reset:hover {
