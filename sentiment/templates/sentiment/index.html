@@ -30,7 +30,7 @@
     </div>
 
     <div class="container">
-        <h2>Обработка больших данных</h2>
+        <h1>Обработка больших данных</h1>
         <form method="POST" enctype="multipart/form-data" action="{% url 'upload_csv' %}" id="uploadForm">
             {% csrf_token %}
             <input type="file" name="csv_file" accept=".csv" id="csvInput" style="display: none;" onchange="document.getElementById('uploadForm').submit();">

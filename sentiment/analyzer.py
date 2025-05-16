@@ -112,7 +112,7 @@ def add_top_ngrams_section(doc, df):
         if not texts:
             continue
 
-        par(doc, f'{label_name} тексты', is_bold=True)
+        par(doc, f'{label_name} класс:')
 
         # Топ униграммы
         top_unigrams = extract_top_ngrams(texts, ngram_range=(1, 1), top_n=5)
@@ -236,11 +236,13 @@ def create_report(df, report_path):
     plt.savefig(image_path)
     plt.close()
     
+    par(doc, 'Визуализируем результаты анализа с помощью гистограммы.')
+    enter(doc, 1)
     doc.add_picture(image_path, width=Inches(6))
     doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
     par(doc, 'Рисунок 1. Гистограмма, отражающая абсолютное количество текстов в каждой категории тональности.', WD_ALIGN_PARAGRAPH.CENTER)
     
-    enter(doc, 1)
+    enter(doc, 2)
     
     par(doc, '2. Баланс классов', is_italic=True)
     par(doc, 'Соотношение между количеством текстов разных тональностей.')
@@ -274,6 +276,8 @@ def create_report(df, report_path):
     plt.savefig(pie_chart_path)
     plt.close()
     
+    par(doc, 'Визуализируем результаты анализа с помощью круговой диаграммы.')
+    enter(doc, 1)
     doc.add_picture(pie_chart_path, width=Inches(6))
     doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
     par(doc, 'Рисунок 2. Круговая диаграмма, демонстрирующая относительное распределение классов тональности.', WD_ALIGN_PARAGRAPH.CENTER)
@@ -288,7 +292,7 @@ def create_report(df, report_path):
     enter(doc, 1)
     
     sentiment_index = (positive_count - negative_count) / total
-    result = f"Сентимент-индекс равен {sentiment_index}, следовательно можно сделать вывод, что в объеме проанализированных текстов "
+    result = f"Сентимент-индекс равен {sentiment_index:.3f}, следовательно можно сделать вывод, что в объеме проанализированных текстов "
     if sentiment_index == 0: 
         result += "полная нейтральность"
     elif sentiment_index > 0: 
@@ -312,28 +316,27 @@ def create_report(df, report_path):
     avg_neu = grouped.mean().get(0, 0)
 
     min_all = df['text_length'].min()
-    min_pos = grouped.min().get(1, 0)
-    min_neg = grouped.min().get(2, 0)
-    min_neu = grouped.min().get(0, 0)
+    min_pos = grouped.min().get(1, 0) if grouped.min().get(1, 0) != 0 else 1
+    min_neg = grouped.min().get(2, 0) if grouped.min().get(2, 0) != 0 else 1
+    min_neu = grouped.min().get(0, 0) if grouped.min().get(0, 0) != 0 else 1
 
     max_all = df['text_length'].max()
     max_pos = grouped.max().get(1, 0)
     max_neg = grouped.max().get(2, 0)
     max_neu = grouped.max().get(0, 0)
 
-    
     table = doc.add_table(rows=5, cols=2)
     table.style = 'Table Grid'  
     table.cell(0, 0).text = 'Показатель'
     table.cell(0, 1).text = 'Количество слов'
     table.cell(1, 0).text = 'Средняя длина текста'
-    table.cell(1, 1).text = f'{avg_all}'
+    table.cell(1, 1).text = f'{avg_all:.3f}'
     table.cell(2, 0).text = 'Средняя длина положительного текста'
-    table.cell(2, 1).text = f'{avg_pos}'
+    table.cell(2, 1).text = f'{avg_pos:.3f}'
     table.cell(3, 0).text = 'Средняя длина отрицательного текста'
-    table.cell(3, 1).text = f'{avg_neg}'
+    table.cell(3, 1).text = f'{avg_neg:.3f}'
     table.cell(4, 0).text = 'Средняя длина нейтрального текста'
-    table.cell(4, 1).text = f'{avg_neu}'
+    table.cell(4, 1).text = f'{avg_neu:.3f}'
     par(doc, 'Таблица 3. Средняя длина текста для каждого класса тональности', WD_ALIGN_PARAGRAPH.CENTER)
     enter(doc, 1)
     
@@ -385,6 +388,8 @@ def create_report(df, report_path):
     plt.savefig(box_path)
     plt.close()
 
+    par(doc, 'Визуализируем результаты анализа с помощью диаграммы "ящик с усами".')
+    enter(doc, 1)
     doc.add_picture(box_path, width=Inches(4))
     doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
     par(doc, 'Рисунок 4. Ящик с усами', WD_ALIGN_PARAGRAPH.CENTER)
